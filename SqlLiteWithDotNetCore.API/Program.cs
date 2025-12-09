@@ -7,7 +7,7 @@ namespace SqlLiteWithDotNetCore.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +50,11 @@ namespace SqlLiteWithDotNetCore.API
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                // Use factory at startup; no manual scope required
+                var dbFactory = app.Services.GetRequiredService<IDbContextFactory<SqlLiteWithDotNetCoreDbContext>>();
+                await using var db = await dbFactory.CreateDbContextAsync();
+                await db.Database.MigrateAsync();
+
                 app.MapOpenApi();
                 app.UseSwagger();
                 app.UseSwaggerUI();
@@ -62,7 +67,7 @@ namespace SqlLiteWithDotNetCore.API
 
             app.MapControllers();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }
