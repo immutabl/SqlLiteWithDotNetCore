@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SqlLiteWithDotNetCore.Application.DTO;
 using SqlLiteWithDotNetCore.Application.Services.Interfaces.IContactService;
 using SqlLiteWithDotNetCore.Domain.Entities;
 
@@ -34,9 +35,21 @@ namespace SqlLiteWithDotNetCore.API.Controllers
 
         // POST api/<Contact>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] CreateContactDTO dto)
         {
-            Console.WriteLine($"/Contact/[Post-endpoint] received an object: {value}");
+            Console.WriteLine($"/Contact/[Post-endpoint] received an object: {dto}");
+
+            var contact = new Contact
+            {
+                Forename = dto.Forename,
+                Surname = dto.Surname,
+                Email = dto.Email,
+                Telno = dto.Telno
+            };
+
+            _contactService.CreateContact(contact);
+
+            Console.WriteLine($"Created Contact: {contact.Forename} {contact.Surname} with Id: {contact.Id}");
         }
 
         // PUT api/<Contact>/5

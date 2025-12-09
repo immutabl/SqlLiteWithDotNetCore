@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using SqlLiteWithDotNetCore.Application.Services.Interfaces.IContactService;
 using SqlLiteWithDotNetCore.Domain.Entities;
 
@@ -17,14 +18,16 @@ namespace SqlLiteWithDotNetCore.Data.Services
             _dbContext = dbContext;
         }
 
-        public void CreateContact(Contact contact)
+        public async Task CreateContact(Contact contact)
         {
-            throw new NotImplementedException();
+            await _dbContext.Contacts.AddAsync(contact);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void UpdateContact(Contact contact)
+        public async Task UpdateContact(Contact contact)
         {
-            throw new NotImplementedException();
+            _dbContext.Contacts.Update(contact);
+            await _dbContext.SaveChangesAsync();
         }
 
         public IEnumerable<Contact> GetAllContacts()
@@ -32,14 +35,23 @@ namespace SqlLiteWithDotNetCore.Data.Services
             return _dbContext.Contacts.ToList();
         }
 
-        public Contact GetContactById(int id)
+        public async Task<Contact> GetContactById(int id)
         {
-            throw new NotImplementedException();
+            var contact = await _dbContext.Contacts.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (contact != null)
+            {
+                return contact;
+            }
+
+            Console.WriteLine($"No contact found with Id: {id}");
+            return new Contact();
+            
         }
 
-        public void DeleteContact(int id)
+        public async Task DeleteContact(int id)
         {
-            throw new NotImplementedException();
+            _dbContext.Remove(id);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

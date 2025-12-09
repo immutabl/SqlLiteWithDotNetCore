@@ -9,14 +9,14 @@ namespace SqlLiteWithDotNetCore.Application.Services.Interfaces.IContactService
 {
     public interface IContactService
     {
-        void CreateContact(Contact contact);
+        Task CreateContact(Contact contact);
 
-        void UpdateContact(Contact contact);
+        Task UpdateContact(Contact contact);
 
         IEnumerable<Contact> GetAllContacts();
 
-        Contact GetContactById(int id);
+        Task<Contact> GetContactById(int id);
 
-        void DeleteContact(int id);
+        Task DeleteContact(int id);
     }
 }

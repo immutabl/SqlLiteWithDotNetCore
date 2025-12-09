@@ -21,11 +21,26 @@ namespace SqlLiteWithDotNetCore.API
                 .AddSwaggerGen();
 
             // Add services to the container.
-            var sqlLiteConnectionString = builder.Configuration.GetConnectionString("SqlLiteConnection") 
+            var sqliteConnectionString = builder.Configuration.GetConnectionString("SqlLiteConnection") 
                                           ?? throw new InvalidOperationException("Connection string 'SqlLiteConnection' not found.");
 
-            builder.Services.AddDbContext<SqlLiteWithDotNetCoreDbContext>(options =>
-                options.UseSqlite(sqlLiteConnectionString));
+
+            // For HTTP requests (scoped DbContext per-request)
+            //builder.Services.AddDbContext<SqlLiteWithDotNetCoreDbContext>(options =>
+            //    options.UseSqlite(sqliteConnectionString));
+
+            // For startup/background use (no manual scope needed)
+            // Register the DBContextFactory
+            builder.Services.AddDbContextFactory<SqlLiteWithDotNetCoreDbContext>(options =>
+                options.UseSqlite(sqliteConnectionString));
+
+            // 2) Expose a scoped DbContext built from the factory
+            //Why: lets controllers/endpoints keep injecting SqlLiteWithDotNetCoreDbContext
+            builder.Services.AddScoped(sp =>
+            {
+                var factory = sp.GetRequiredService<IDbContextFactory<SqlLiteWithDotNetCoreDbContext>>();
+                return factory.CreateDbContext();
+            });
 
             /* DI configuration*/
             builder.Services.AddScoped<IContactService, ContactService>();
