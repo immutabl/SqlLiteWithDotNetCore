@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/SqlLiteWithDotNetCore.API/AddressBook.db-shm
+/SqlLiteWithDotNetCore.API/AddressBook.db-wal
+/SqlLiteWithDotNetCore.API/SqlLiteWithDotNetCore.db-shm
+/SqlLiteWithDotNetCore.API/SqlLiteWithDotNetCore.db-wal
