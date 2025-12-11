@@ -4,18 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SqlLiteWithDotNetCore.Application.Contracts.Contacts;
 
 namespace SqlLiteWithDotNetCore.Application.Services.Interfaces.IContactService
 {
     public interface IContactService
     {
-        Task CreateContact(Contact contact);
+        Task CreateContactAsync(Contact contact);
 
-        Task UpdateContact(Contact contact);
+        Task UpdateContactAsync(Contact contact);
 
-        IEnumerable<Contact> GetAllContacts();
+        Task<GetContactsDto> GetAllContactsAsync();
 
-        Task<Contact> GetContactById(int id);
+        Task<ContactDto?> GetContactByIdAsync(int id);
 
         Task DeleteContact(int id);
     }

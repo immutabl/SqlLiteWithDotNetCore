@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SqlLiteWithDotNetCore.Application.DTO;
+using SqlLiteWithDotNetCore.Application.Contracts.Contacts;
 using SqlLiteWithDotNetCore.Application.Services.Interfaces.IContactService;
 using SqlLiteWithDotNetCore.Domain.Entities;
 
@@ -12,30 +12,39 @@ namespace SqlLiteWithDotNetCore.API.Controllers
     public class ContactController : ControllerBase
     {
         private readonly IContactService _contactService;
+        private readonly ILogger _logger;
 
-        public ContactController(IContactService contactService)
+        public ContactController(IContactService contactService, ILogger logger)
         {
             _contactService = contactService;
+            _logger = logger;
         }
 
 
         // GET: api/<Contact>
         [HttpGet]
-        public IEnumerable<Contact> Get()
+        public async Task<GetContactsDto> Get()
         {
-            return _contactService.GetAllContacts();
+            return await _contactService.GetAllContactsAsync();
         }
 
         // GET api/<Contact>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<ContactDto>> Get(int id)
         {
-            return $"/Contact/{id}";
+            if (id <= 0)
+            {
+                return BadRequest("Id must be positive.");
+            }
+
+            var c = await _contactService.GetContactByIdAsync(id);
+            return c;
         }
+    
 
         // POST api/<Contact>
         [HttpPost]
-        public void Post([FromBody] CreateContactDTO dto)
+        public void Post([FromBody] CreateContactRequest dto)
         {
             Console.WriteLine($"/Contact/[Post-endpoint] received an object: {dto}");
 
@@ -47,7 +56,7 @@ namespace SqlLiteWithDotNetCore.API.Controllers
                 Telno = dto.Telno
             };
 
-            _contactService.CreateContact(contact);
+            _contactService.CreateContactAsync(contact);
 
             Console.WriteLine($"Created Contact: {contact.Forename} {contact.Surname} with Id: {contact.Id}");
         }
