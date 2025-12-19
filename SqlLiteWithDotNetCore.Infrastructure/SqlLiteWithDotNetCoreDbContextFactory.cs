@@ -4,6 +4,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace SqlLiteWithDotNetCore.Infrastructure
 {
+    //Explicit implementation of IDesignTimeDbContextFactory
+    //to help with EF Core Tools commands
+    //since DI is not available during EF design-time service
     public sealed class SqlLiteWithDotNetCoreDbContextFactory
         : IDesignTimeDbContextFactory<SqlLiteWithDotNetCoreDbContext>
     {
