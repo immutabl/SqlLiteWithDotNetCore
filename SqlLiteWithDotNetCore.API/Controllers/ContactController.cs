@@ -1,9 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SqlLiteWithDotNetCore.Application.Contracts.Contacts;
-using SqlLiteWithDotNetCore.Application.Services.Interfaces.IContactService;
+using SqlLiteWithDotNetCore.Application.Abstractions.Handlers.Contact;
+using SqlLiteWithDotNetCore.Application.Abstractions.Handlers.Contacts;
+using SqlLiteWithDotNetCore.Application.Abstractions.Persistance;
+using SqlLiteWithDotNetCore.Application.Contacts;
+using SqlLiteWithDotNetCore.Application.Contacts.Commands;
+using SqlLiteWithDotNetCore.Application.Contacts.Dto;
+using SqlLiteWithDotNetCore.Application.Contacts.Queries;
+using SqlLiteWithDotNetCore.Application.Country;
+using SqlLiteWithDotNetCore.Application.Country.Queries;
 using SqlLiteWithDotNetCore.Domain.Entities;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using IDeleteCountry = SqlLiteWithDotNetCore.Application.Abstractions.Handlers.Contacts.IDeleteCountry;
 
 namespace SqlLiteWithDotNetCore.API.Controllers
 {
@@ -11,21 +17,36 @@ namespace SqlLiteWithDotNetCore.API.Controllers
     [ApiController]
     public class ContactController : ControllerBase
     {
-        private readonly IContactService _contactService;
-        private readonly ILogger _logger;
-
-        public ContactController(IContactService contactService, ILogger logger)
+        //private readonly IContactRepository _contactRepository;
+        //private readonly ICountryRepository _countryRepository;
+        private readonly ICreateContact _create;
+        private readonly IUpdateContact _update;
+        private readonly IDeleteContact _delete;
+        private readonly IGetAllContacts _getAll;
+        private readonly IGetContactById _getById;
+        private readonly ILogger<ContactController> _logger;
+        private readonly IGetCountryByCode _getCountryByCode;
+        public ContactController(ILogger<ContactController> logger, ICreateContact createContact, 
+                                    IUpdateContact updateContact, IDeleteContact delete, 
+                                    IGetAllContacts getAllContacts, IGetContactById getById,
+                                    IGetCountryByCode getCountryByCode)
         {
-            _contactService = contactService;
             _logger = logger;
+            _getAll = getAllContacts;
+            _getById = getById;
+            _create = createContact;
+            _update = updateContact;
+            _delete = delete;
+            _getById = getById;
+            _getCountryByCode = getCountryByCode;
         }
 
 
         // GET: api/<Contact>
         [HttpGet]
-        public async Task<GetContactsDto> Get()
+        public async Task<ActionResult<ContactsDto>> Get()
         {
-            return await _contactService.GetAllContactsAsync();
+            return Ok(await _getAll.HandleAsync(new GetAllContactsQuery()));
         }
 
         // GET api/<Contact>/5
@@ -37,28 +58,35 @@ namespace SqlLiteWithDotNetCore.API.Controllers
                 return BadRequest("Id must be positive.");
             }
 
-            var c = await _contactService.GetContactByIdAsync(id);
-            return c;
+            var c = await _getById.HandleAsync(new GetContactByIdQuery(id));
+
+            if (c is null)
+            {
+                return NotFound($"Contact with Id:{id} was not found.");
+            }
+
+            return c;   //return the object directly as ActionResult<ContactDto> will handle wrapping it in Ok()
         }
     
 
         // POST api/<Contact>
         [HttpPost]
-        public void Post([FromBody] CreateContactRequest dto)
+        public async Task<IActionResult> Post([FromBody] CreateContactCommand cmd)
         {
-            Console.WriteLine($"/Contact/[Post-endpoint] received an object: {dto}");
+            Console.WriteLine($"/Contact/[Post-endpoint] received an object: {cmd}");
 
-            var contact = new Contact
+            var country = await _getCountryByCode.HandleAsync(new GetCountryByCodeQuery(cmd.CountryCode));
+
+            if (country is null)
             {
-                Forename = dto.Forename,
-                Surname = dto.Surname,
-                Email = dto.Email,
-                Telno = dto.Telno
-            };
+                return BadRequest($"Country code {cmd.CountryCode} not recognised.");
+            }
+                
+            var contact = await _create.HandleAsync(cmd);
 
-            _contactService.CreateContactAsync(contact);
-
-            Console.WriteLine($"Created Contact: {contact.Forename} {contact.Surname} with Id: {contact.Id}");
+            Console.WriteLine($"Created Contact: {cmd.Forename} {contact.Surname} with Id: {contact.Id}");
+            
+            return CreatedAtAction(nameof(Get), new { id = contact.Id }, contact);
         }
 
         // PUT api/<Contact>/5

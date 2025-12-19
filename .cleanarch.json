@@ -1,0 +1,50 @@
+{
+  "version": 1,
+
+  "solution": {
+    "rootNamespace": "MyCompany.MyProduct",
+    "srcFolder": "src"
+  },
+
+  "projects": {
+    "api": {
+      "name": "MyProduct.Api",
+      "layer": "Api"
+    },
+    "application": {
+      "name": "MyProduct.Application",
+      "layer": "Application"
+    },
+    "domain": {
+      "name": "MyProduct.Domain",
+      "layer": "Domain"
+    },
+    "infrastructure": {
+      "name": "MyProduct.Infrastructure",
+      "layer": "Infrastructure"
+    }
+  },
+
+  "architecture": {
+    "style": "clean",
+    "useInboundPorts": true,
+    "useRepositories": true,
+    "cqrs": true
+  },
+
+  "naming": {
+    "handlersSuffix": "Handler",
+    "commandsSuffix": "Command",
+    "queriesSuffix": "Query",
+    "asyncMethodSuffix": "Async"
+  },
+
+  "folders": {
+    "abstractions": "Abstractions",
+    "handlers": "Handlers",
+    "commands": "Commands",
+    "queries": "Queries",
+    "persistence": "Persistence",
+    "controllers": "Controllers"
+  }
+}

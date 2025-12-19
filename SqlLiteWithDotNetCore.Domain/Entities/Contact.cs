@@ -11,5 +11,8 @@
         public string Email { get; set; }
 
         public string Telno { get; set; }
+
+        public int CountryId { get; set; }    //Foreign Key
+        public Country Country { get; set; }
     }
 }

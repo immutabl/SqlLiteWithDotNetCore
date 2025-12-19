@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- EF runtime base -->
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.*" />
+		<!-- EF provider for SQLite (note: Sqlite, not SqlLite) -->
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.*" />
+		<!-- EF design-time for migrations -->
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.*">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.11" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.11" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.11" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.11" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.11" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\SqlLiteWithDotNetCore.Application\SqlLiteWithDotNetCore.Application.csproj" />
+	  <ProjectReference Include="..\SqlLiteWithDotNetCore.Domain\SqlLiteWithDotNetCore.Domain.csproj" />
+	</ItemGroup>
+</Project>
