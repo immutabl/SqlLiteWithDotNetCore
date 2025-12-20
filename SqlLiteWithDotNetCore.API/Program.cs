@@ -32,7 +32,7 @@ namespace SqlLiteWithDotNetCore.API
                             builder.Configuration.GetConnectionString("SqlLiteDb") ?? throw new InvalidOperationException("Connection string 'SqlLiteDb' not found.")
                 );
 
-            var connStr = $"Data Source={dbPath}";
+            var connStr = $"{dbPath}";
 
 
 

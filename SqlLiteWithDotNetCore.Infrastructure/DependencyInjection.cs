@@ -19,7 +19,7 @@ namespace SqlLiteWithDotNetCore.Infrastructure
                               "Connection string 'SqlLiteDb' not found.");
 
             services.AddDbContextFactory<SqlLiteWithDotNetCoreDbContext>(options =>
-                options.UseSqlite($"Data Source={connStr}"));
+                options.UseSqlite($"{connStr}"));
             //services.AddDbContextFactory<SqlLiteWithDotNetCoreDbContext>(options =>
             //    options.UseSqlite(configuration.GetConnectionString("SqlLiteDb")));
 
