@@ -35,11 +35,11 @@ namespace SqlLiteWithDotNetCore.Infrastructure.Persistence
 
         public async Task DeleteContact(int id)
         {
-            var contact = await _dbContext.Contacts.AsNoTracking().AnyAsync(x => x.Id == id);
+            var contact = await _dbContext.Contacts.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
-            if (contact != null)
+            if (contact is not null)
             {
-                _dbContext.Remove(id);
+                _dbContext.Remove(contact);
                 await _dbContext.SaveChangesAsync();
             }
         }
