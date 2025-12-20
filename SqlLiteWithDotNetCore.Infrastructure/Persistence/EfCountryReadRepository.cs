@@ -35,9 +35,8 @@ namespace SqlLiteWithDotNetCore.Infrastructure.Persistence
             return country;
         }
 
-        public async Task<IEnumerable<Country>> GetAll()
+        public async Task<IEnumerable<Country>> GetAllAsync()
         {
-
             return await _db.Countries
                 .AsNoTracking()
                 .ToArrayAsync();

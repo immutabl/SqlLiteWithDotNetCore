@@ -6,15 +6,6 @@ using System.Threading.Tasks;
 
 namespace SqlLiteWithDotNetCore.Application.Country.Dto
 {
-    public sealed record CountryDto
-    {
-        public int Id { get; set; }
-        public string CountryCode { get; set; }
-        public string Name { get; set; }
-        public string DialingCode { get; set; }
-        public string Capital { get; set; }
-        
-           
-    }
+    public sealed record CountryDto(int Id, string CountryCode, string Name, string DialingCode, string Capital);
 
 }

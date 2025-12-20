@@ -66,9 +66,12 @@ namespace SqlLiteWithDotNetCore.Infrastructure.Persistence
         #region GetById
         public async Task<Contact?> GetContactByIdAsync(int id)
         {
-            var contact = await _dbContext.Contacts.FindAsync(id);
-                
-            if (contact == null)
+            var contact = await _dbContext.Contacts
+                                        .AsNoTracking()
+                                        .Include(x => x.Country)
+                                        .FirstOrDefaultAsync(x => x.Id == id);
+                                        
+            if (contact is null)
             {
                 _logger.LogWarning($"No contact found with Id: {id}");
             }

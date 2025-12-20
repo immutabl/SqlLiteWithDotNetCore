@@ -6,7 +6,7 @@ namespace SqlLiteWithDotNetCore.Application.Abstractions.Persistance
     public interface ICountryRepository
     {
         Task<Domain.Entities.Country?> Get(int id);
-        Task<IEnumerable<Domain.Entities.Country>> GetAll();
+        Task<IEnumerable<Domain.Entities.Country>> GetAllAsync();
         Task<Domain.Entities.Country?> GetByCodeAsync(string countryCode);
 
     }

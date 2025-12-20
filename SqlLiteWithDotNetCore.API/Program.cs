@@ -53,7 +53,9 @@ namespace SqlLiteWithDotNetCore.API
                     return factory.CreateDbContext();
                 });
 
+                
                 /* DI configuration*/
+                ////TODO: move this to per-project extension methods
                 builder.Services.AddScoped<ICountryRepository, EfCountryReadRepository>();
                 builder.Services.AddScoped<IContactRepository, EfContactRepository>();
                 builder.Services.AddScoped<ICreateContact, CreateContactHandler>();

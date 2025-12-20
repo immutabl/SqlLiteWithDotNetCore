@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SqlLiteWithDotNetCore.Application.Abstractions.Handlers.Contact;
+using SqlLiteWithDotNetCore.Application.Abstractions.Handlers.Contacts;
 using SqlLiteWithDotNetCore.Application.Abstractions.Persistance;
+using SqlLiteWithDotNetCore.Application.Contacts.Queries;
+using SqlLiteWithDotNetCore.Application.Country.Dto;
 using SqlLiteWithDotNetCore.Application.Country.Queries;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,17 +15,20 @@ namespace SqlLiteWithDotNetCore.API.Controllers
     public class CountryController : ControllerBase
     {
         private readonly IGetCountryByCode _getCountryByCode;
+        private readonly IGetAllCountries _getAllCountries;
 
-        public CountryController(IGetCountryByCode getCountryByCode)
+        public CountryController(IGetCountryByCode getCountryByCode,
+                                    IGetAllCountries getAllCountries)
         {
             _getCountryByCode = getCountryByCode;
+            _getAllCountries = getAllCountries;
         }
 
         // GET: api/<CountryController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<CountryDto>>> Get()
         {
-            throw new NotImplementedException();
+            return Ok(await _getAllCountries.HandleAsync(new GetAllContactsQuery()));
         }
 
         // GET api/<CountryController>/5

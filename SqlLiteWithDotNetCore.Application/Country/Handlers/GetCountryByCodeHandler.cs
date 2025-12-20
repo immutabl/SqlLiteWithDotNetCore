@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using SqlLiteWithDotNetCore.Application.Abstractions.Handlers.Contact;
 using SqlLiteWithDotNetCore.Application.Abstractions.Persistance;
 using SqlLiteWithDotNetCore.Application.Country.Dto;
@@ -31,13 +26,7 @@ namespace SqlLiteWithDotNetCore.Application.Country.Handlers
                 return null;
             }
 
-            return new CountryDto
-            {
-                Capital = c.Capital,
-                CountryCode = c.CountryCode,
-                DialingCode = c.DialingCode,
-                Name = c.Name
-            };
+            return new CountryDto(c.Id, c.CountryCode, c.Name, c.DialingCode, c.Capital);
         }
     }
 }
