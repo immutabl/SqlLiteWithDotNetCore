@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using SqlLiteWithDotNetCore.Application.Abstractions.Persistance;
+using SqlLiteWithDotNetCore.Application.Abstractions.Persistence;
 using SqlLiteWithDotNetCore.Application.Contacts.Dto;
 
 namespace SqlLiteWithDotNetCore.Application.Contacts.Handlers

@@ -23,5 +23,8 @@ namespace SqlLiteWithDotNetCore.Application.Contacts.Commands
         
         [Required, StringLength(50)] 
         public required string Telno    { get; init; }
+
+        [Required, StringLength(3, MinimumLength = 2 )]
+        public required string CountryCode  { get; init; }
     }
 }

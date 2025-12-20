@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using SqlLiteWithDotNetCore.Domain.Entities;
 
-namespace SqlLiteWithDotNetCore.Application.Abstractions.Persistance
+namespace SqlLiteWithDotNetCore.Application.Abstractions.Persistence
 {
     public interface ICountryRepository
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SqlLiteWithDotNetCore.Application.Abstractions.Handlers.Contact;
 using SqlLiteWithDotNetCore.Application.Abstractions.Handlers.Contacts;
-using SqlLiteWithDotNetCore.Application.Abstractions.Persistance;
+using SqlLiteWithDotNetCore.Application.Abstractions.Persistence;
 using SqlLiteWithDotNetCore.Application.Contacts;
 using SqlLiteWithDotNetCore.Application.Contacts.Commands;
 using SqlLiteWithDotNetCore.Application.Contacts.Dto;
@@ -91,8 +91,11 @@ namespace SqlLiteWithDotNetCore.API.Controllers
 
         // PUT api/<Contact>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] UpdateContactCommand cmd)
         {
+            await _update.HandleAsync(cmd);
+
+            return Ok();
         }
 
         // DELETE api/<Contact>/5

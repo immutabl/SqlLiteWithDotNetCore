@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SqlLiteWithDotNetCore.Application.Abstractions.Handlers.Contacts;
-using SqlLiteWithDotNetCore.Application.Abstractions.Persistance;
+using SqlLiteWithDotNetCore.Application.Abstractions.Persistence;
 using SqlLiteWithDotNetCore.Application.Contacts.Dto;
 using SqlLiteWithDotNetCore.Application.Contacts.Queries;
 using SqlLiteWithDotNetCore.Application.Country.Dto;

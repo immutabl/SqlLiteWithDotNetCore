@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SqlLiteWithDotNetCore.Application.Abstractions.Handlers.Contact;
 using SqlLiteWithDotNetCore.Application.Abstractions.Handlers.Contacts;
-using SqlLiteWithDotNetCore.Application.Abstractions.Persistance;
+using SqlLiteWithDotNetCore.Application.Abstractions.Persistence;
 using SqlLiteWithDotNetCore.Application.Contacts.Queries;
 using SqlLiteWithDotNetCore.Application.Country.Dto;
 using SqlLiteWithDotNetCore.Application.Country.Queries;

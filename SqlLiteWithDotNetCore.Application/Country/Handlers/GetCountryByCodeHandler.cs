@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using SqlLiteWithDotNetCore.Application.Abstractions.Handlers.Contact;
-using SqlLiteWithDotNetCore.Application.Abstractions.Persistance;
+using SqlLiteWithDotNetCore.Application.Abstractions.Persistence;
 using SqlLiteWithDotNetCore.Application.Country.Dto;
 using SqlLiteWithDotNetCore.Application.Country.Queries;
 
