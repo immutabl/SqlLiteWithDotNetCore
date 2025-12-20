@@ -100,8 +100,11 @@ namespace SqlLiteWithDotNetCore.API.Controllers
 
         // DELETE api/<Contact>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            await _delete.HandleAsync(new DeleteContactCommand{Id = id});
+
+            return Ok();
         }
     }
 }
